@@ -17,7 +17,7 @@ vector<int> partition(vector<int> &nums, int n)
     for (int i = 0; i < groupSize; i++)
     {
         // 使用nth_element函数对当前子集进行部分排序，使得子集中间位置的元素处于正确的位置
-        std::nth_element(nums.begin() + i * 5, nums.begin() + min((i + 1) * 5, n), nums.begin() + i * 5 + 2);
+        std::nth_element(nums.begin() + i * 5, nums.begin() + i * 5 + 2, nums.begin() + min((i + 1) * 5, n));
 
         // 把当前子集的中位数添加到medians向量中（在部分排序后，第三个元素即为中位数）
         medians.push_back(nums[i * 5 + 2]);
@@ -27,7 +27,7 @@ vector<int> partition(vector<int> &nums, int n)
     if (n % 5 != 0)
     {
         // 对剩余元素进行部分排序，并找到剩余元素的中位数
-        std::nth_element(nums.begin() + groupSize * 5, nums.end(), nums.begin() + groupSize * 5 + (n - groupSize * 5) / 2);
+        std::nth_element(nums.begin() + groupSize * 5, nums.begin() + groupSize * 5 + (n - groupSize * 5) / 2, nums.end());
 
         // 将剩余元素的中位数添加到medians向量中
         medians.push_back(nums[groupSize * 5 + (n - groupSize * 5) / 2]);
@@ -50,6 +50,8 @@ int findKthSmallest(vector<int> &nums, int n, int k)
 
     // Step 2: 计算中位数的中位数（即medians向量的中位数）
     int p = findKthSmallest(medians, medians.size(), medians.size() / 2);
+
+    // cout << p << endl;
 
     // Step 3: 根据中位数p将原始数组nums划分为三个子集：小于p的元素集s1，等于p的元素集s2，大于p的元素集s3
     vector<int> s1, s2, s3;
@@ -88,9 +90,9 @@ int findKthSmallest(vector<int> &nums, int n, int k)
 int main()
 {
     // 示例数据
-    vector<int> nums = {3, 5, 1, 8, 2, 7, 4, 9, 6};
+    vector<int> nums = {3, 5, 1, 8, 2, 7, 12, 9, 6};
     int n = nums.size(); // 数组元素总数
-    int k = 2;           // 要找的第k小的元素
+    int k = 6;           // 要找的第k小的元素
 
     // 调用findKthSmallest函数获取结果
     int res = findKthSmallest(nums, n, k);
