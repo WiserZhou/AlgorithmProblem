@@ -66,10 +66,20 @@ int main()
 {
     // 示例输入
     vector<Point> Q = {{1, 1}, {2, 3}, {4, 2}, {3, 5}, {5, 4}, {6, 1}, {7, 3}, {8, 2}, {9, 5}, {10, 4}};
-
-    // 执行 Graham Scan 算法
-    vector<Point> convexHull = grahamScan(Q);
-
+    vector<Point> convexHull;
+    if (Q.size() < 3)
+    {
+        return -1;
+    }
+    else if (Q.size() == 3)
+    {
+        convexHull = Q;
+    }
+    else
+    {
+        // 执行 Graham Scan 算法
+        convexHull = grahamScan(Q);
+    }
     // 输出凸包的顶点坐标
     cout << "Convex Hull points:\n";
     for (Point p : convexHull)
