@@ -1,0 +1,11 @@
+https://www.cnblogs.com/kubidemanong/p/11854724.html
+
+
+
+void dfs(x,y)
+{
+    if(x>X || y>Y) return;
+    if(x==X&&y==Y) ans++;return;
+    dfs(x+1,y);
+    dfs(x,y+1);
+}
