@@ -33,30 +33,30 @@ struct CompareHeapNode
 vector<Edge> prim(const Graph &G, int root)
 {
     int V = G.size();
-    vector<int> key(V, numeric_limits<int>::max()); // 所有顶点的键值初始化为无穷大
-    vector<int> pi(V, -1);                          // 父节点初始化为-1
+    vector<int> key(V, numeric_limits<int>::max()); // 所有顶点的键值初始化为无穷大，记录MST中与v节点相连的最短边的权重
+    vector<int> pi(V, -1);                          // 父节点初始化为-1，记录MST中与v节点相连的最短边的顶点
     vector<bool> inMST(V, false);                   // 标记顶点是否在最小生成树中
 
-    priority_queue<HeapNode, vector<HeapNode>, CompareHeapNode> minHeap;
+    priority_queue<HeapNode, vector<HeapNode>, CompareHeapNode> minHeap; // 构建的最小堆
 
     key[root] = 0;
     minHeap.push({root, 0});
 
     while (!minHeap.empty())
     {
-        int u = minHeap.top().vertex;
+        int u = minHeap.top().vertex; // 把heap中权值最小的顶点加入进来
         minHeap.pop();
         inMST[u] = true;
 
-        for (const Edge &edge : G[u])
+        for (const Edge &edge : G[u]) // 对于所有与u连接的边
         {
-            int v = edge.to;
+            int v = edge.to; // v是边的另一端的终点
             int weight = edge.weight;
-            if (!inMST[v] && weight < key[v])
+            if (!inMST[v] && weight < key[v]) // v不在MST中，且此边的权重比v的与MST中顶点的连接边的已记录的权重小，那么就替换
             {
                 pi[v] = u;
                 key[v] = weight;
-                minHeap.push({v, key[v]});
+                minHeap.push({v, key[v]}); // 把v和u，v边的权重加入heap中
             }
         }
     }
