@@ -67,7 +67,7 @@ vector<Edge> prim(const Graph &G, int root)
     {
         if (v != root)
         {
-            MST.push_back({v, key[v]});
+            MST.push_back({v, key[v]}); // 加入所有的顶点，以及对应的最短边的权重
         }
     }
 
